@@ -20,9 +20,12 @@ router.post('/', function (req, res) {
       let stats = JSON.parse(body)
       let stationlist = stats.stationBeanList
       let selectedStation = stationlist.find(e => e.id == station);
+      let mostBroken = stationlist.sort((a, b) => (b.totalDocks - b.availableBikes - b.availableDocks) - (a.totalDocks - a.availableBikes - a.availableDocks))
+      let tenMostBroken = mostBroken.slice(0, 10)
+      res.render('index', {station: selectedStation});
     }
   })
-  res.render('index');
+
 })
 
 module.exports = router;
