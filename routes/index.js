@@ -7,7 +7,28 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Biketrack' });
+  let url = 'https://feeds.citibikenyc.com/stations/stations.json';
+  request(url, function (err, response, body){
+    if(err){
+      res.render('index', {brokenSummary: null, error: 'Error loading station info'})
+    } else {
+      let data = JSON.parse(body)
+      let stationList = data.stationBeanList
+      let broken = stationList.sort((a, b) => (b.totalDocks - b.availableBikes - b.availableDocks) - (a.totalDocks - a.availableBikes - a.availableDocks))
+      let tenMostBroken = broken.slice(0, 10)
+      let brokenSummary = tenMostBroken.map(s => {
+        let brokeTotal = s.totalDocks - s.availableBikes - s.availableDocks;
+        return {
+          stationName: s.stationName,
+          brokeTotal: brokeTotal,
+          totalDocks: s.totalDocks,
+          availableBikes: s.availableBikes,
+          availableDocks: s.availableDocks
+        }
+      })
+      res.render('index', { brokenSummary: brokenSummary });
+    }
+  })
 });
 
 router.post('/', function (req, res) {
@@ -18,9 +39,9 @@ router.post('/', function (req, res) {
       res.render('index', {station: null, error: 'Error!'})
     } else {
       let stats = JSON.parse(body)
-      let stationlist = stats.stationBeanList
-      let selectedStation = stationlist.find(e => e.id == station);
-      let mostBroken = stationlist.sort((a, b) => (b.totalDocks - b.availableBikes - b.availableDocks) - (a.totalDocks - a.availableBikes - a.availableDocks))
+      let stationList = stats.stationBeanList
+      let selectedStation = stationList.find(e => e.id == station);
+      let mostBroken = stationList.sort((a, b) => (b.totalDocks - b.availableBikes - b.availableDocks) - (a.totalDocks - a.availableBikes - a.availableDocks))
       let tenMostBroken = mostBroken.slice(0, 10)
       res.render('index', {station: selectedStation});
     }

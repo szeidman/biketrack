@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  h1 Broken Citibikes
+  h2 Realtime list of the Citibike stations with the most broken bicycles and/or docks
+  ul
+  table
+    thead
+      th Station name
+      th Broken docks/bikes
+      th Total docks
+      th Available Bikes
+      th Available Docks
+    tbody
+      each val in brokenSummary
+        tr
+          td #{val.stationName}
+          td #{val.brokeTotal}
+          td #{val.totalDocks}
+          td #{val.availableBikes}
+          td #{val.availableDocks}
+  h3 Get station data
+  form(method="POST" action="/")
+    div.form-group
+      label(for='station') Station:
+      input#station.form-control(type='select', placeholder='station' name='station')
+    button.btn.btn-primary(type='submit') Access
+  div.result
+    p #{station}
