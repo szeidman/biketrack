@@ -1,8 +1,27 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  font: 14px Helvetica, Arial, sans-serif;
+}
+
+h1 {
+  color: pink;
+}
 
 a {
-  color: #00B7FF; }
+  color: #00b7ff;
+}
+
+table {
+  border-collapse: collapse;
+  border: 2px solid black;
+  border-radius: 2px;
+}
+table th {
+  border: 2px solid black;
+}
+table td {
+  border: 1px solid black;
+  text-align: center;
+}
 
 /*# sourceMappingURL=style.css.map */
