@@ -11,7 +11,7 @@
     "cookie-parser": "~1.4.3",
     "cryptiles": ">=4.1.2",
     "debug": "~2.6.9",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "hoek": ">=5.0.3",
     "mime": ">=1.4.1",
     "morgan": "^1.9.1",
